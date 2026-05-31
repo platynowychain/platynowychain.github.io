@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My GitHub Pages Site</title>
+    <style>
+        /* ── Reset & Base ─────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #f9fafb;
+            --surface: #ffffff;
+            --text: #1f2937;
+            --text-muted: #6b7280;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --border: #e5e7eb;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.05);
+            --radius: 12px;
+            --max-width: 880px;
+            --transition: 0.2s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 17px;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Typography ──────────────────────────── */
+        h1,
+        h2,
+        h3 {
+            line-height: 1.25;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        h1 {
+            font-size: 2.6rem;
+            margin-bottom: 0.35rem;
+        }
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 48px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+        h3 {
+            font-size: 1.2rem;
+        }
+        p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+        a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* ── Layout ──────────────────────────────── */
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ── Header / Nav ────────────────────────── */
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.85);
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text);
+            letter-spacing: -0.03em;
+        }
+        .logo span {
+            color: var(--accent);
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.75rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+        }
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2.5px;
+            background: var(--text);
+            margin: 5px 0;
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* ── Hero Section ────────────────────────── */
+        .hero {
+            padding: 5rem 0 3.5rem;
+            text-align: center;
+        }
+        .hero .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            user-select: none;
+        }
+        .hero .badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.02em;
+        }
+        .hero h1 {
+            margin-bottom: 0.5rem;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            max-width: 500px;
+            margin: 0 auto 1.75rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.65rem 1.6rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all var(--transition);
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+            margin-left: 0.6rem;
+        }
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        /* ── Sections ────────────────────────────── */
+        section {
+            padding: 3.5rem 0;
+        }
+        section:nth-child(even) {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ── About ───────────────────────────────── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .skill-tag {
+            background: #f3f4f6;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+            transition: var(--transition);
+        }
+        .skill-tag:hover {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* ── Projects ────────────────────────────── */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+        }
+        .project-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+            border-color: #c7d2fe;
+        }
+        .project-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.6rem;
+        }
+        .project-card h3 {
+            margin-bottom: 0.4rem;
+        }
+        .project-card p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .project-card .link {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* ── Contact ─────────────────────────────── */
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all var(--transition);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .contact-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: var(--shadow);
+        }
+
+        /* ── Footer ──────────────────────────────── */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+        footer a {
+            font-weight: 500;
+        }
+
+        /* ── Responsive ──────────────────────────── */
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.45rem;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: var(--surface);
+                border-bottom: 1px solid var(--border);
+                padding: 1rem 1.5rem;
+                gap: 0.75rem;
+                box-shadow: var(--shadow-lg);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .hero {
+                padding: 3rem 0 2rem;
+            }
+            .btn-outline {
+                margin-left: 0;
+                margin-top: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════════════ HEADER / NAV ═══════════════ -->
+    <header>
+        <div class="container navbar">
+            <a href="#" class="logo">&lt;<span>Dev</span>/&gt;</a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="avatar">👋</div>
+                <div><span class="badge">🚀 Open to Work</span></div>
+                <h1>Hi, I'm Alex</h1>
+                <p>
+                    A passionate developer building clean, accessible,
+                    and performant web experiences. Welcome to my corner of the internet.
+                </p>
+                <a href="#projects" class="btn btn-primary">View My Work</a>
+                <a href="#contact" class="btn btn-outline">Get in Touch</a>
+            </div>
+        </section>
+
+        <!-- ═══════════════ ABOUT ═══════════════ -->
+        <section id="about">
+            <div class="container">
+                <h2>About Me</h2>
+                <div class="about-grid">
+                    <div>
+                        <p>
+                            I'm a full-stack developer with a love for crafting intuitive
+                            user interfaces and robust backend systems. I believe great
+                            software starts with empathy for the user and respect for clean code.
+                        </p>
+                        <p>
+                            When I'm not coding, you'll find me exploring new tech,
+                            contributing to open-source projects, or enjoying a good cup
+                            of coffee.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom:0.6rem;">🛠️ Skills & Tools</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">HTML5</span>
+                            <span class="skill-tag">CSS3</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">REST APIs</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">Docker</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════ PROJECTS ═══════════════ -->
+        <section id="projects">
+            <div class="container">
+                <h2>Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="icon">📝</div>
+                        <h3>TaskFlow</h3>
+                        <p>A minimalist task management app with drag-and-drop, dark mode, and local storage.</p>
+                        <a href="#" class="link">View on GitHub →</a>
+                    </div>
+                    <div class="project-card">
+                        <div class="icon">🌦️</div>
+                        <h3>WeatherDash</h3>
+                        <p>Real-time weather dashboard using a public API with geolocation and 7-day forecasts.</p>
+                        <a href="#" class="link">View on GitHub →</a>
+                    </div>
+                    <div class="project-card">
+                        <div class="icon">🎨</div>
+                        <h3>ColorCraft</h3>
+                        <p>Generate beautiful color palettes. Export as CSS variables, JSON, or copy hex codes.</p>
+                        <a href="#" class="link">View on GitHub →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════ CONTACT ═══════════════ -->
+        <section id="contact">
+            <div class="container">
+                <h2>Contact</h2>
+                <p>I'd love to hear from you! Whether it's a project, collaboration, or just to say hi — reach out anytime.</p>
+                <div class="contact-links">
+                    <a href="mailto:your-email@example.com" class="contact-link">
+                        ✉️ Email
+                    </a>
+                    <a href="https://github.com" target="_blank" rel="noopener" class="contact-link">
+                        💻 GitHub
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-link">
+                        🔗 LinkedIn
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener" class="contact-link">
+                        🐦 Twitter
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="year"></span> Alex Dev. Built with ❤️ and hosted on <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a>.</p>
+        </div>
+    </footer>
+
+    <!-- ═══════════════ SCRIPTS ═══════════════ -->
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
