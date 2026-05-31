@@ -3,534 +3,691 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Pages Site</title>
+    <title>DivineLand</title>
     <style>
-        /* ── Reset & Base ─────────────────────────── */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --surface-hover: #1a1a1a;
+            --text: #e0e0e0;
+            --text-dim: #999999;
+            --cyan: #00e5ff;
+            --cyan-dim: #00b8d4;
+            --cyan-glow: rgba(0, 229, 255, 0.15);
+            --border: #222222;
+            --radius: 12px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
             margin: 0;
             padding: 0;
-        }
-
-        :root {
-            --bg: #f9fafb;
-            --surface: #ffffff;
-            --text: #1f2937;
-            --text-muted: #6b7280;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --border: #e5e7eb;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.05);
-            --radius: 12px;
-            --max-width: 880px;
-            --transition: 0.2s ease;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 17px;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg);
             color: var(--text);
-            line-height: 1.65;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ── Typography ──────────────────────────── */
-        h1,
-        h2,
-        h3 {
-            line-height: 1.25;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-        h1 {
-            font-size: 2.6rem;
-            margin-bottom: 0.35rem;
-        }
-        h2 {
-            font-size: 1.75rem;
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-        h2::after {
+        /* ── Background subtle grid ── */
+        body::before {
             content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 48px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 3px;
-        }
-        h3 {
-            font-size: 1.2rem;
-        }
-        p {
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-        a {
-            color: var(--accent);
-            text-decoration: none;
-            transition: color var(--transition);
-        }
-        a:hover {
-            color: var(--accent-hover);
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 30%, transparent 70%);
         }
 
-        /* ── Layout ──────────────────────────────── */
-        .container {
-            width: 100%;
-            max-width: var(--max-width);
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        /* ── Header / Nav ────────────────────────── */
-        header {
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
+        /* ── Navigation ── */
+        nav {
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(8px);
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
         }
-        .navbar {
+
+        .nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             height: 60px;
         }
-        .logo {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--text);
-            letter-spacing: -0.03em;
-        }
-        .logo span {
-            color: var(--accent);
-        }
-        .nav-links {
-            display: flex;
-            gap: 1.75rem;
-            list-style: none;
-        }
-        .nav-links a {
-            color: var(--text-muted);
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color var(--transition);
-        }
-        .nav-links a:hover {
-            color: var(--accent);
-        }
 
-        /* Mobile menu toggle */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 6px;
-        }
-        .menu-toggle span {
-            display: block;
-            width: 24px;
-            height: 2.5px;
-            background: var(--text);
-            margin: 5px 0;
-            border-radius: 2px;
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             transition: var(--transition);
         }
 
-        /* ── Hero Section ────────────────────────── */
-        .hero {
-            padding: 5rem 0 3.5rem;
-            text-align: center;
+        .logo:hover {
+            color: var(--cyan);
         }
-        .hero .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            display: inline-flex;
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            background: var(--cyan);
+            display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.8rem;
-            color: #fff;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow-lg);
-            user-select: none;
-        }
-        .hero .badge {
-            display: inline-block;
-            background: #dbeafe;
-            color: #1e40af;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 4px 14px;
-            border-radius: 20px;
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.02em;
-        }
-        .hero h1 {
-            margin-bottom: 0.5rem;
-        }
-        .hero p {
-            font-size: 1.15rem;
-            max-width: 500px;
-            margin: 0 auto 1.75rem;
-        }
-        .btn {
-            display: inline-block;
-            padding: 0.65rem 1.6rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all var(--transition);
-            cursor: pointer;
-            border: none;
-            text-decoration: none;
-        }
-        .btn-primary {
-            background: var(--accent);
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background: var(--accent-hover);
-            color: #fff;
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-lg);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--border);
-            color: var(--text);
-            margin-left: 0.6rem;
-        }
-        .btn-outline:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-1px);
-        }
-
-        /* ── Sections ────────────────────────────── */
-        section {
-            padding: 3.5rem 0;
-        }
-        section:nth-child(even) {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        /* ── About ───────────────────────────────── */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2.5rem;
-            align-items: start;
-        }
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        .skill-tag {
-            background: #f3f4f6;
-            padding: 5px 14px;
-            border-radius: 20px;
             font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text);
+            color: #0a0a0a;
+            font-weight: 800;
+            box-shadow: 0 0 20px var(--cyan-glow);
             transition: var(--transition);
         }
-        .skill-tag:hover {
-            background: #dbeafe;
-            color: #1e40af;
+
+        .logo:hover .logo-icon {
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.35);
         }
 
-        /* ── Projects ────────────────────────────── */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
         }
-        .project-card {
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffffff;
+            background: var(--surface-hover);
+        }
+
+        .nav-links a.active {
+            color: var(--cyan);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--cyan);
+            border-radius: 1px;
+        }
+
+        /* ── Main content ── */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        /* ── Hero section (index) ── */
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--cyan);
+            margin-bottom: 24px;
+            letter-spacing: 0.04em;
+            background: rgba(0, 229, 255, 0.05);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            animation: fadeInUp 0.6s ease 0.1s forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .hero-title .cyan {
+            color: var(--cyan);
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-dim);
+            max-width: 500px;
+            margin: 0 auto 36px;
+            animation: fadeInUp 0.6s ease 0.2s forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 0.6s ease 0.3s forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0a0a0a;
+            box-shadow: 0 4px 20px var(--cyan-glow);
+        }
+
+        .btn-primary:hover {
+            background: #00f0ff;
+            box-shadow: 0 6px 28px rgba(0, 229, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #ffffff;
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--cyan);
+            background: rgba(0, 229, 255, 0.06);
+            color: var(--cyan);
+        }
+
+        /* ── Download cards ── */
+        .section-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--cyan);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .section-desc {
+            color: var(--text-dim);
+            margin-bottom: 36px;
+            font-size: 1rem;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            text-align: left;
+        }
+
+        .download-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            transition: all var(--transition);
-        }
-        .project-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-3px);
-            border-color: #c7d2fe;
-        }
-        .project-card .icon {
-            font-size: 2rem;
-            margin-bottom: 0.6rem;
-        }
-        .project-card h3 {
-            margin-bottom: 0.4rem;
-        }
-        .project-card p {
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-        .project-card .link {
-            font-weight: 600;
-            font-size: 0.9rem;
+            padding: 24px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
-        /* ── Contact ─────────────────────────────── */
-        .contact-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
+        .download-card:hover {
+            border-color: #333;
+            background: var(--surface-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
         }
-        .contact-link {
+
+        .download-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--cyan);
+            opacity: 0;
+            transition: var(--transition);
+            border-radius: 0 0 2px 2px;
+        }
+
+        .download-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(0, 229, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 14px;
+            color: var(--cyan);
+            transition: var(--transition);
+        }
+
+        .download-card:hover .card-icon {
+            background: rgba(0, 229, 255, 0.18);
+            box-shadow: 0 0 16px var(--cyan-glow);
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .card-meta {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 14px;
+        }
+
+        .card-size {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 14px;
+        }
+
+        .btn-download {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all var(--transition);
-            color: var(--text);
-            text-decoration: none;
-            font-size: 0.95rem;
-        }
-        .contact-link:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            box-shadow: var(--shadow);
-        }
-
-        /* ── Footer ──────────────────────────────── */
-        footer {
-            margin-top: auto;
-            text-align: center;
-            padding: 2rem 0;
-            color: var(--text-muted);
+            gap: 6px;
+            padding: 9px 18px;
+            border-radius: 50px;
+            font-weight: 600;
             font-size: 0.85rem;
-            border-top: 1px solid var(--border);
-        }
-        footer a {
-            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            background: transparent;
+            color: var(--cyan);
+            border: 1.5px solid rgba(0, 229, 255, 0.4);
+            letter-spacing: 0.01em;
         }
 
-        /* ── Responsive ──────────────────────────── */
-        @media (max-width: 640px) {
-            h1 {
+        .btn-download:hover {
+            background: var(--cyan);
+            color: #0a0a0a;
+            border-color: var(--cyan);
+            box-shadow: 0 4px 18px var(--cyan-glow);
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 20px 24px;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+            background: var(--bg);
+        }
+
+        footer span {
+            color: var(--cyan);
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse-glow {
+            0%,
+            100% {
+                box-shadow: 0 0 20px var(--cyan-glow);
+            }
+            50% {
+                box-shadow: 0 0 35px rgba(0, 229, 255, 0.3);
+            }
+        }
+
+        .pulse {
+            animation: pulse-glow 2.5s ease-in-out infinite;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 500px) {
+            .nav-inner {
+                padding: 0 16px;
+                height: 52px;
+            }
+            .logo {
+                font-size: 1.2rem;
+            }
+            .logo-icon {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
+                border-radius: 6px;
+            }
+            .nav-links a {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+            .hero-title {
                 font-size: 2rem;
             }
-            h2 {
-                font-size: 1.45rem;
+            .hero-subtitle {
+                font-size: 1rem;
             }
-            .about-grid {
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .download-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                right: 0;
-                background: var(--surface);
-                border-bottom: 1px solid var(--border);
-                padding: 1rem 1.5rem;
-                gap: 0.75rem;
-                box-shadow: var(--shadow-lg);
-            }
-            .nav-links.active {
-                display: flex;
-            }
-            .menu-toggle {
-                display: block;
-            }
-            .hero {
-                padding: 3rem 0 2rem;
-            }
-            .btn-outline {
-                margin-left: 0;
-                margin-top: 0.6rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ═══════════════ HEADER / NAV ═══════════════ -->
-    <header>
-        <div class="container navbar">
-            <a href="#" class="logo">&lt;<span>Dev</span>/&gt;</a>
-            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
+    <!-- ═══════════ NAVIGATION ═══════════ -->
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">◆</span> DivineLand
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active" id="nav-home">Home</a></li>
+                <li><a href="downloads.html" id="nav-downloads">Downloads</a></li>
             </ul>
         </div>
-    </header>
+    </nav>
 
-    <!-- ═══════════════ HERO ═══════════════ -->
+    <!-- ═══════════ MAIN CONTENT ═══════════ -->
     <main>
-        <section class="hero">
-            <div class="container">
-                <div class="avatar">👋</div>
-                <div><span class="badge">🚀 Open to Work</span></div>
-                <h1>Hi, I'm Alex</h1>
-                <p>
-                    A passionate developer building clean, accessible,
-                    and performant web experiences. Welcome to my corner of the internet.
+        <div class="container">
+
+            <!-- ── INDEX / HOME PAGE ── -->
+            <div id="page-home">
+                <div class="hero-badge">🚀 Welcome to DivineLand</div>
+                <h1 class="hero-title">
+                    Your Gateway to<br><span class="cyan">Premium Tools</span>
+                </h1>
+                <p class="hero-subtitle">
+                    A curated collection of open-source utilities, scripts, and resources.
+                    Clean. Minimal. Powerful. Just the way you like it.
                 </p>
-                <a href="#projects" class="btn btn-primary">View My Work</a>
-                <a href="#contact" class="btn btn-outline">Get in Touch</a>
-            </div>
-        </section>
-
-        <!-- ═══════════════ ABOUT ═══════════════ -->
-        <section id="about">
-            <div class="container">
-                <h2>About Me</h2>
-                <div class="about-grid">
-                    <div>
-                        <p>
-                            I'm a full-stack developer with a love for crafting intuitive
-                            user interfaces and robust backend systems. I believe great
-                            software starts with empathy for the user and respect for clean code.
-                        </p>
-                        <p>
-                            When I'm not coding, you'll find me exploring new tech,
-                            contributing to open-source projects, or enjoying a good cup
-                            of coffee.
-                        </p>
-                    </div>
-                    <div>
-                        <h3 style="margin-bottom:0.6rem;">🛠️ Skills & Tools</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">HTML5</span>
-                            <span class="skill-tag">CSS3</span>
-                            <span class="skill-tag">JavaScript</span>
-                            <span class="skill-tag">React</span>
-                            <span class="skill-tag">Node.js</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Git</span>
-                            <span class="skill-tag">REST APIs</span>
-                            <span class="skill-tag">SQL</span>
-                            <span class="skill-tag">Docker</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════ PROJECTS ═══════════════ -->
-        <section id="projects">
-            <div class="container">
-                <h2>Projects</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="icon">📝</div>
-                        <h3>TaskFlow</h3>
-                        <p>A minimalist task management app with drag-and-drop, dark mode, and local storage.</p>
-                        <a href="#" class="link">View on GitHub →</a>
-                    </div>
-                    <div class="project-card">
-                        <div class="icon">🌦️</div>
-                        <h3>WeatherDash</h3>
-                        <p>Real-time weather dashboard using a public API with geolocation and 7-day forecasts.</p>
-                        <a href="#" class="link">View on GitHub →</a>
-                    </div>
-                    <div class="project-card">
-                        <div class="icon">🎨</div>
-                        <h3>ColorCraft</h3>
-                        <p>Generate beautiful color palettes. Export as CSS variables, JSON, or copy hex codes.</p>
-                        <a href="#" class="link">View on GitHub →</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════ CONTACT ═══════════════ -->
-        <section id="contact">
-            <div class="container">
-                <h2>Contact</h2>
-                <p>I'd love to hear from you! Whether it's a project, collaboration, or just to say hi — reach out anytime.</p>
-                <div class="contact-links">
-                    <a href="mailto:your-email@example.com" class="contact-link">
-                        ✉️ Email
+                <div class="hero-buttons">
+                    <a href="downloads.html" class="btn btn-primary">
+                        📦 Browse Downloads
                     </a>
-                    <a href="https://github.com" target="_blank" rel="noopener" class="contact-link">
-                        💻 GitHub
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-link">
-                        🔗 LinkedIn
-                    </a>
-                    <a href="https://twitter.com" target="_blank" rel="noopener" class="contact-link">
-                        🐦 Twitter
+                    <a href="https://github.com" class="btn btn-outline" target="_blank" rel="noopener">
+                        ⭐ Star on GitHub
                     </a>
                 </div>
             </div>
-        </section>
+
+            <!-- ── DOWNLOADS PAGE ── -->
+            <div id="page-downloads" style="display:none; width:100%;">
+                <div class="section-label">📥 Downloads</div>
+                <h2 class="section-title">Grab Your Tools</h2>
+                <p class="section-desc">Free downloads. No bullshit. Click and go.</p>
+
+                <div class="download-grid">
+                    <!-- Card 1 -->
+                    <div class="download-card">
+                        <div class="card-icon">🖥️</div>
+                        <div class="card-title">DivineTool CLI</div>
+                        <div class="card-meta">v2.4.1 &middot; Windows / Linux / macOS</div>
+                        <span class="card-size">~14 MB</span><br>
+                        <a href="#" class="btn-download" onclick="handleDownload('DivineTool CLI', 'divinetool-cli-v2.4.1.zip')">
+                            ⬇ Download .zip
+                        </a>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="download-card">
+                        <div class="card-icon">📦</div>
+                        <div class="card-title">Resource Pack</div>
+                        <div class="card-meta">v1.2.0 &middot; Icons, Fonts, Templates</div>
+                        <span class="card-size">~28 MB</span><br>
+                        <a href="#" class="btn-download" onclick="handleDownload('Resource Pack', 'resource-pack-v1.2.0.zip')">
+                            ⬇ Download .zip
+                        </a>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="download-card">
+                        <div class="card-icon">📜</div>
+                        <div class="card-title">Script Bundle</div>
+                        <div class="card-meta">v3.0.0 &middot; Python &amp; Bash Scripts</div>
+                        <span class="card-size">~6 MB</span><br>
+                        <a href="#" class="btn-download" onclick="handleDownload('Script Bundle', 'script-bundle-v3.0.0.zip')">
+                            ⬇ Download .zip
+                        </a>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="download-card">
+                        <div class="card-icon">🎨</div>
+                        <div class="card-title">Theme Pack</div>
+                        <div class="card-meta">v1.5.0 &middot; Dark &amp; Cyan Themes</div>
+                        <span class="card-size">~2 MB</span><br>
+                        <a href="#" class="btn-download" onclick="handleDownload('Theme Pack', 'theme-pack-v1.5.0.zip')">
+                            ⬇ Download .zip
+                        </a>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="download-card">
+                        <div class="card-icon">📖</div>
+                        <div class="card-title">Documentation PDF</div>
+                        <div class="card-meta">Latest &middot; Full Guide &amp; API Docs</div>
+                        <span class="card-size">~4 MB</span><br>
+                        <a href="#" class="btn-download" onclick="handleDownload('Documentation PDF', 'divineland-docs.pdf')">
+                            ⬇ Download .pdf
+                        </a>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="download-card">
+                        <div class="card-icon">⚙️</div>
+                        <div class="card-title">Config Templates</div>
+                        <div class="card-meta">v1.0.0 &middot; JSON / YAML / TOML</div>
+                        <span class="card-size">~1 MB</span><br>
+                        <a href="#" class="btn-download" onclick="handleDownload('Config Templates', 'config-templates-v1.0.0.zip')">
+                            ⬇ Download .zip
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </main>
 
-    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <!-- ═══════════ FOOTER ═══════════ -->
     <footer>
-        <div class="container">
-            <p>&copy; <span id="year"></span> Alex Dev. Built with ❤️ and hosted on <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a>.</p>
-        </div>
+        <p>&copy; 2026 <span>DivineLand</span>. Built with 💙 for the open-source community.</p>
     </footer>
 
-    <!-- ═══════════════ SCRIPTS ═══════════════ -->
+    <!-- ═══════════ SCRIPTS ═══════════ -->
     <script>
-        // Set current year in footer
-        document.getElementById('year').textContent = new Date().getFullYear();
+        // ── Page routing (simple SPA-like behavior) ──
+        const pageHome = document.getElementById('page-home');
+        const pageDownloads = document.getElementById('page-downloads');
+        const navHome = document.getElementById('nav-home');
+        const navDownloads = document.getElementById('nav-downloads');
 
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
+        function showPage(page) {
+            if (page === 'home') {
+                pageHome.style.display = 'block';
+                pageDownloads.style.display = 'none';
+                navHome.classList.add('active');
+                navDownloads.classList.remove('active');
+                document.title = 'DivineLand';
+                window.history.pushState({ page: 'home' }, '', 'index.html');
+            } else if (page === 'downloads') {
+                pageHome.style.display = 'none';
+                pageDownloads.style.display = 'block';
+                navDownloads.classList.add('active');
+                navHome.classList.remove('active');
+                document.title = 'Downloads — DivineLand';
+                window.history.pushState({ page: 'downloads' }, '', 'downloads.html');
+            }
+        }
 
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+        // Handle nav clicks
+        navHome.addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('home');
+        });
+        navDownloads.addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('downloads');
         });
 
-        // Close mobile menu when a link is clicked
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
-                navLinks.classList.remove('active');
+        // Handle browser back/forward
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.page === 'downloads') {
+                pageHome.style.display = 'none';
+                pageDownloads.style.display = 'block';
+                navDownloads.classList.add('active');
+                navHome.classList.remove('active');
+                document.title = 'Downloads — DivineLand';
+            } else {
+                pageHome.style.display = 'block';
+                pageDownloads.style.display = 'none';
+                navHome.classList.add('active');
+                navDownloads.classList.remove('active');
+                document.title = 'DivineLand';
             }
         });
+
+        // On load, check URL path
+        (function() {
+            const path = window.location.pathname;
+            if (path.includes('downloads')) {
+                showPage('downloads');
+            } else {
+                showPage('home');
+            }
+        })();
+
+        // ── Download handler (simulated) ──
+        function handleDownload(name, filename) {
+            // In a real setup, these files would exist in your repo.
+            // For now, show a toast/alert so you know it's wired up.
+            showToast(`Starting download: ${filename}`);
+            console.log(`📥 Download triggered: ${name} → ${filename}`);
+            // Uncomment below to actually attempt a download from the same directory:
+            // window.location.href = filename;
+        }
+
+        // ── Simple toast notification ──
+        function showToast(message) {
+            // Remove existing toast if any
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            toast.style.cssText = `
+                        position: fixed;
+                        bottom: 30px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background: #1a1a1a;
+                        color: #ffffff;
+                        padding: 12px 24px;
+                        border-radius: 50px;
+                        font-size: 0.9rem;
+                        font-weight: 500;
+                        z-index: 9999;
+                        border: 1px solid #333;
+                        box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+                        animation: fadeInUp 0.35s ease forwards;
+                        pointer-events: none;
+                    `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 2200);
+        }
     </script>
 </body>
 </html>
